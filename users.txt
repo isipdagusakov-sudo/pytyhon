@@ -1,0 +1,8 @@
+[
+  {
+    "name": "Goose",
+    "borrowed_books": [
+      "1984"
+    ]
+  }
+]

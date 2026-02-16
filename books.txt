@@ -1,0 +1,12 @@
+[
+  {
+    "title": "1984",
+    "author": "Джордж Оруэлл",
+    "is_available": false
+  },
+  {
+    "title": "Путешествия Афанасьева за Пузырём",
+    "author": "Девлет",
+    "is_available": true
+  }
+]
