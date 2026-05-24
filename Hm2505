@@ -1,0 +1,37 @@
+import time
+from PIL import Image
+import multiprocessing as mp
+from pathlib import Path
+
+def process_image(args):
+    input_path, output_path = args
+    with Image.open(input_path) as img:
+        img = img.rotate(-90, expand=True)
+        img = img.resize((800, 600), Image.Resampling.LANCZOS)
+        img = img.convert('L')
+        img.save(output_path, 'JPEG')
+
+def create_test_images():
+    for i in range(20):
+        img = Image.new('RGB', (1920, 1080))
+        img.save(f'test_images/img_{i}.jpg', 'JPEG')
+
+Path('test_images').mkdir(exist_ok=True)
+Path('processed').mkdir(exist_ok=True)
+
+create_test_images()
+
+image_files = [(img, f'processed/out_{img.name}') for img in Path('test_images').glob('*.jpg')]
+
+start = time.time()
+for img_path, out_path in image_files:
+    process_image((img_path, out_path))
+print(time.time() - start)
+
+for f in Path('processed').glob('*.jpg'):
+    f.unlink()
+
+start = time.time()
+with mp.Pool() as pool:
+    pool.map(process_image, image_files)
+print(time.time() - start)
